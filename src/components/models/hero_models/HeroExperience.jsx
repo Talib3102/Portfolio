@@ -6,13 +6,20 @@ import { Room } from "./Room";
 import HeroLights from "./HeroLights";
 import Particles from "./Particles";
 import { Suspense } from "react";
+import useInViewport from "../../../hooks/useInViewport";
 
 const HeroExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const isTablet = useMediaQuery({ query: "(max-width: 1024px)" });
+  const [canvasRef, isVisible] = useInViewport("300px");
 
   return (
-    <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
+    <div ref={canvasRef} className="h-full w-full">
+      {isVisible && <Canvas
+        dpr={[1, isMobile ? 1 : 1.5]}
+        gl={{ antialias: false, powerPreference: "high-performance" }}
+        camera={{ position: [0, 0, 15], fov: 45 }}
+      >
       {/* deep blue ambient */}
       <ambientLight intensity={0.2} color="#1a1a40" />
       {/* Configure OrbitControls to disable panning and control zoom based on device type */}
@@ -27,7 +34,7 @@ const HeroExperience = () => {
 
       <Suspense fallback={null}>
         <HeroLights />
-        <Particles count={100} />
+        <Particles count={isMobile ? 35 : 60} />
         <group
           scale={isMobile ? 0.7 : 1}
           position={[0, -3.5, 0]}
@@ -36,7 +43,8 @@ const HeroExperience = () => {
           <Room />
         </group>
       </Suspense>
-    </Canvas>
+      </Canvas>}
+    </div>
   );
 };
 

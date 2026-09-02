@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 
 const Particles = ({ count = 200 }) => {
   const mesh = useRef();
+  const lastUpdate = useRef(0);
 
   const particles = useMemo(() => {
     const temp = [];
@@ -19,7 +20,11 @@ const Particles = ({ count = 200 }) => {
     return temp;
   }, [count]);
 
-  useFrame(() => {
+  useFrame((state) => {
+    // Updating at 30fps is visually identical for these subtle particles and
+    // leaves considerably more time for scrolling and touch interactions.
+    if (state.clock.elapsedTime - lastUpdate.current < 1 / 30) return;
+    lastUpdate.current = state.clock.elapsedTime;
     const positions = mesh.current.geometry.attributes.position.array;
     for (let i = 0; i < count; i++) {
       let y = positions[i * 3 + 1];

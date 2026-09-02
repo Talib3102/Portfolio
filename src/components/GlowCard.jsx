@@ -3,10 +3,14 @@ import { useRef } from "react";
 const GlowCard = ({ card, index, children }) => {
   // refs for all the cards
   const cardRefs = useRef([]);
+  const frameRef = useRef(null);
 
   // when mouse moves over a card, rotate the glow effect
   const handleMouseMove = (index) => (e) => {
-    // get the current card
+    if (frameRef.current) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      // get the current card
     const card = cardRefs.current[index];
     if (!card) return;
 
@@ -23,6 +27,7 @@ const GlowCard = ({ card, index, children }) => {
 
     // set the angle as a CSS variable
     card.style.setProperty("--start", angle + 60);
+    });
   };
 
   // return the card component with the mouse move event

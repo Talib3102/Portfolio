@@ -1,27 +1,18 @@
-import { socialImgs } from "../constants";
-
-const Footer = () => {
-  return (
-    <footer className="footer">
-      <div className="footer-container">
-        <div className="flex flex-col justify-center">
-          <p>Terms & Conditions</p>
-        </div>
-        <div className="socials">
-          {socialImgs.map((socialImg, index) => (
-            <div key={index} className="icon">
-              <img src={socialImg.imgPath} alt="social icon" />
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col justify-center">
-          <p className="text-center md:text-end">
-            © {new Date().getFullYear()} Adrian Hajdin. All rights reserved.
-          </p>
-        </div>
+const Footer = () => (
+  <footer className="footer">
+    <div className="footer-container">
+      <div className="flex flex-col justify-center">
+        <a className="hover:text-white transition-colors" href="mailto:talibmohammadnaqiansari@gmail.com">talibmohammadnaqiansari@gmail.com</a>
       </div>
-    </footer>
-  );
-};
+      <div className="socials">
+        <a className="icon" href="https://github.com/Talib3102" target="_blank" rel="noreferrer" aria-label="GitHub profile">GH</a>
+        <a className="icon" href="https://www.linkedin.com/in/abutalib-java" target="_blank" rel="noreferrer" aria-label="LinkedIn profile">in</a>
+      </div>
+      <div className="flex flex-col justify-center">
+        <p className="text-center md:text-end">© {new Date().getFullYear()} Abu Talib Ansari. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;

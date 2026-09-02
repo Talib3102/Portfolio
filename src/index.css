@@ -7,7 +7,7 @@
 
 html,
 body {
-  width: 100dvw;
+  width: 100%;
   overflow-x: hidden;
   background-color: black;
   color: white;
@@ -16,7 +16,12 @@ body {
 }
 
 section {
-  width: 100dvw;
+  width: 100%;
+}
+
+section:not(#hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 @theme {
@@ -408,16 +413,17 @@ section {
   position: absolute;
   overflow: hidden;
   animation: marquee 60s linear infinite;
+  will-change: transform;
 }
 .marquee-item {
   float: left;
 }
 @keyframes marquee {
   0% {
-    left: 0;
+    transform: translateX(0);
   }
   100% {
-    left: -100%;
+    transform: translateX(-50%);
   }
 }
 /* marquee end */
@@ -469,4 +475,13 @@ section {
 
 .card:hover::before {
   opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
